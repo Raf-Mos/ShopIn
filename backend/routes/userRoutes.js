@@ -1,19 +1,31 @@
-import jwt from 'jsonwebtoken'
+import express from "express";
+import {
+    creatUser, 
+    loginUser,
+    logoutCurrentUser, 
+    getAllUsers, 
+    getCurrentUserProfile,
+    updateCurrentUserProfile,
+    getUserById,
+    deleteUserById,
+    updateUserById} from '../controllers/userController.js'
 
-const generateToken = (res, userId) => {
-    const token = jwt.sign({userId}, process.env.JWT_SECRET, 
-        {expiresIn: "30d"
-    });
+import { authenticate, authorizeAdmin } from "../middleware/authMiddleware.js";
 
-    //set JWT as an HTTP-Only
-    res.cookie('jwt', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'development',
-        sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000
-    })
+const router = express.Router();
 
-    return token
-};
+router.route("/").post(creatUser).get(authenticate, authorizeAdmin, getAllUsers);
 
-export default generateToken;
+router.post("/auth", loginUser);
+router.post("/logout", logoutCurrentUser);
+
+router.route('/profile').get(authenticate, getCurrentUserProfile).put(authenticate,
+    updateCurrentUserProfile);
+
+// Admin routes
+router.route('/:id')
+    .delete(authenticate, authorizeAdmin, deleteUserById)
+    .get(authenticate, authorizeAdmin, getUserById)
+    .put(authenticate, authorizeAdmin, updateUserById);
+
+export default router;
