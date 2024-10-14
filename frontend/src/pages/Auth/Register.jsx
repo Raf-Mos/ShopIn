@@ -133,7 +133,7 @@ const Register = () => {
         </form>
 
         <div className="mt-4">
-          <p className="text-black font-semibold">
+          <p className="text-white font-semibold">
             Already have an account?{" "}
             <Link
               to={redirect ? `/login?redirect=${redirect}` : "/login"}
