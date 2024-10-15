@@ -133,11 +133,11 @@ const Register = () => {
         </form>
 
         <div className="mt-4">
-          <p className="text-white font-semibold">
+          <p className="text-black font-semibold">
             Already have an account?{" "}
             <Link
               to={redirect ? `/login?redirect=${redirect}` : "/login"}
-              className="text-gray-500 hover:underline"
+              className="text-blue-800 hover:underline"
             >
               Login
             </Link>
