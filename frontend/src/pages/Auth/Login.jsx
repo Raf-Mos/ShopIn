@@ -44,8 +44,8 @@ const Login = () => {
             <div className='mr-[4rem] mt-[5rem]'>
                 <h1 className='text-2xl font-semibold mb-4'>Sign In</h1>
 
-                <form onSubmit={submitHandler} classname="container w-[40rem]">
-                    <div classname="my-[2rem]">
+                <form onSubmit={submitHandler} className="container w-[40rem]">
+                    <div className="my-[2rem]">
                         <label htmlFor='email' className='black text-sm font-medium text'>Email Address</label>
                     <input 
                     type="email" 
@@ -56,7 +56,7 @@ const Login = () => {
                     />
                     </div>
 
-                    <div classname="my-[2rem]">
+                    <div className="my-[2rem]">
                         <label htmlFor='password' className='black text-sm font-medium text'>Password</label>
                     <input 
                     type="password" 
@@ -80,7 +80,7 @@ const Login = () => {
         <div className='mt-4'>
             <p className='text-white font-semibold mb-4'>
                 New Customer ? {" "}
-                <Link to={redirect ? `/register?redirect=${redirect}` : '/register'} className='text-gray-500 hover:underline'>Register</Link>
+                <Link to={redirect ? `/register?redirect=${redirect}` : '/register'} className='text-pink-500 hover:underline'>Register</Link>
             </p>
         </div>
             </div>
