@@ -9,7 +9,7 @@ function calcPrices(orderItems) {
   );
 
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
-  const taxRate = 0.15;
+  const taxRate = 0.2;
   const taxPrice = (itemsPrice * taxRate).toFixed(2);
 
   const totalPrice = (
