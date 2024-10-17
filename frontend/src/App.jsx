@@ -9,11 +9,15 @@ function App() {
   return (
 		<>
 		<ToastContainer />
+		<div className="h-[100%] flex flex-col justify-between">
 		<Navigation />
+
 		<main className="pt-3">
 		<Outlet />
-		<Footer />
+		
 		</main>
+		<Footer />
+		</div>
 		</>
 	);
 }
