@@ -1,4 +1,3 @@
-
 const Footer = () => {
   return (
     <div>
@@ -13,9 +12,21 @@ const Footer = () => {
             <div>
               <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2">
-                <li><a href="/" className="hover:text-indigo-400">Home</a></li>
-                <li><a href="/shop" className="hover:text-indigo-400">Products</a></li>
-                <li><a href="/about-us" className="hover:text-indigo-400">About Us</a></li>
+                <li>
+                  <a href="/" className="hover:text-indigo-400">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="/shop" className="hover:text-indigo-400">
+                    Products
+                  </a>
+                </li>
+                <li>
+                  <a href="/about-us" className="hover:text-indigo-400">
+                    About Us
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
@@ -31,7 +42,7 @@ const Footer = () => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
 export default Footer;
