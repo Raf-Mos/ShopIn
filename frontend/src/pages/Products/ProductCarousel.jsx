@@ -70,29 +70,29 @@ const ProductCarousel = () => {
                   <div className="flex justify-between w-[20rem]">
                     <div className="one">
                       <h1 className="flex items-center mb-6">
-                        <FaStore className="mr-2 text-black" /> Brand: {brand}
+                        <FaStore className="mr-2 text-black font-semibold" /> Brand: {brand}
                       </h1>
                       <h1 className="flex items-center mb-6">
-                        <FaClock className="mr-2 text-black" /> Added:{" "}
+                        <FaClock className="mr-2 text-black font-semibold" /> Added:{" "}
                         {moment(createdAt).fromNow()}
                       </h1>
                       <h1 className="flex items-center mb-6">
-                        <FaStar className="mr-2 text-black" /> Reviews:
+                        <FaStar className="mr-2 text-black font-semibold" /> Reviews:
                         {numReviews}
                       </h1>
                     </div>
 
                     <div className="two">
                       <h1 className="flex items-center mb-6">
-                        <FaStar className="mr-2 text-black" /> Ratings:{" "}
+                        <FaStar className="mr-2 text-black font-semibold" /> Ratings:{" "}
                         {Math.round(rating)}
                       </h1>
                       <h1 className="flex items-center mb-6">
-                        <FaShoppingCart className="mr-2 text-black" /> Quantity:{" "}
+                        <FaShoppingCart className="mr-2 text-black font-semibold" /> Quantity:{" "}
                         {quantity}
                       </h1>
                       <h1 className="flex items-center mb-6">
-                        <FaBox className="mr-2 text-black" /> In Stock:{" "}
+                        <FaBox className="mr-2 text-black font-semibold" /> In Stock:{" "}
                         {countInStock}
                       </h1>
                     </div>
