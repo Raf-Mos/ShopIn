@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 body {
-    background: #ffffff;
-    color: #0f0f10;
-    height: 100vh;
-  }
-  #root{
-    height: 100vh;
-  }
-  input,
-  textarea {
-    color: #000;
-  }
+  background: #ffffff;
+  color: #0f0f10;
+  height: 100vh;
+}
+#root {
+  height: 100vh;
+}
+input,
+textarea {
+  color: #000;
+}
