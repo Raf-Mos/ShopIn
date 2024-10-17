@@ -15,8 +15,6 @@ const AdminProductUpdate = () => {
 
   const { data: productData } = useGetProductByIdQuery(params._id);
 
-  console.log(productData);
-
   const [image, setImage] = useState(productData?.image || "");
   const [name, setName] = useState(productData?.name || "");
   const [description, setDescription] = useState(
@@ -28,18 +26,12 @@ const AdminProductUpdate = () => {
   const [brand, setBrand] = useState(productData?.brand || "");
   const [stock, setStock] = useState(productData?.countInStock);
 
-  // hook
   const navigate = useNavigate();
 
-  // Fetch categories using RTK Query
   const { data: categories = [] } = useFetchCategoriesQuery();
 
   const [uploadProductImage] = useUploadProductImageMutation();
-
-  // Define the update product mutation
   const [updateProduct] = useUpdateProductMutation();
-
-  // Define the delete product mutation
   const [deleteProduct] = useDeleteProductMutation();
 
   useEffect(() => {
@@ -59,20 +51,30 @@ const AdminProductUpdate = () => {
     formData.append("image", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      toast.success("Item added successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      toast.success("Item added successfully");
       setImage(res.image);
     } catch (err) {
-      toast.success("Item added successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+        toast.error("Failed to upload image. Try again.");
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleDelete = async () => {
+    try {
+      let answer = window.confirm(
+        "Are you sure you want to delete this product?"
+      );
+      if (!answer) return;
+
+      const { data } = await deleteProduct(params._id);
+      toast.success(`"${data.name}" is deleted`);
+      navigate("/admin/allproductslist");
+    } catch (err) {
+      console.log(err);
+      toast.error("Delete failed. Try again.");
+    }
+ };
+
+ const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
@@ -85,49 +87,19 @@ const AdminProductUpdate = () => {
       formData.append("brand", brand);
       formData.append("countInStock", stock);
 
-      // Update product using the RTK Query mutation
-      const data = await updateProduct({ productId: params._id, formData });
+      const data = await updateProduct({ 
+        productId: params._id, 
+        formData }).unwrap();
 
       if (data?.error) {
-        toast.error(data.error, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-        });
+        toast.error(data.error);
       } else {
-        toast.success(`Product successfully updated`, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-        });
+        toast.success(`Product successfully updated`);
         navigate("/admin/allproductslist");
       }
     } catch (err) {
       console.log(err);
-      toast.error("Product update failed. Try again.", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      let answer = window.confirm(
-        "Are you sure you want to delete this product?"
-      );
-      if (!answer) return;
-
-      const { data } = await deleteProduct(params._id);
-      toast.success(`"${data.name}" is deleted`, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
-      navigate("/admin/allproductslist");
-    } catch (err) {
-      console.log(err);
-      toast.error("Delete failed. Try again.", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      toast.error("Product update failed. Try again.");
     }
   };
 
@@ -150,7 +122,7 @@ const AdminProductUpdate = () => {
             )}
 
             <div className="mb-3">
-              <label className="text-white  py-2 px-4 block w-full text-center rounded-lg cursor-pointer font-bold py-11">
+              <label className="text-white  py-2 px-4 block w-full text-center rounded-lg cursor-pointer font-bold">
                 {image ? image.name : "Upload image"}
                 <input
                   type="file"
@@ -234,6 +206,7 @@ const AdminProductUpdate = () => {
                     placeholder="Choose Category"
                     className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#ffffff] text-black mr-[5rem]"
                     onChange={(e) => setCategory(e.target.value)}
+                    value={category || ""}
                   >
                     {categories?.map((c) => (
                       <option key={c._id} value={c._id}>
