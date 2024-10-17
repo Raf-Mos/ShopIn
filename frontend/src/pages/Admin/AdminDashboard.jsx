@@ -25,7 +25,7 @@ const AdminDashboard = () => {
       tooltip: {
         theme: "dark",
       },
-      colors: ["#00E396"],
+      colors: ["#0F0F0F"],
       dataLabels: {
         enabled: true,
       },
