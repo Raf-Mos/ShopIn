@@ -71,13 +71,22 @@ The platform also includes admin functionality for managing products, orders, an
 ## Screenshots
 
 ### Dashboard View
-![Dashboard Screenshot](Screenshot_dashboard.png)
-
-### Shopping Cart View
-![Shopping Cart Screenshot](Screenshot_website4.png)
+![Dashboard Screenshot](./shopIn_screenshots/Screenshot_dashboard.png)
 
 ### Special Products View
-![Products Screenshot](Screenshot_website2.png)
+![Products Screenshot](./shopIn_screenshots/Screenshot_website5.png)
+
+### Shopping Cart View
+![Shopping Cart Screenshot](./shopIn_screenshots/Screenshot_website4.png)
+
+### Special Products View
+![Products Screenshot](./shopIn_screenshots/Screenshot_website3.png)
+
+### Special Products View
+![Products Screenshot](./shopIn_screenshots/Screenshot_website2.png)
+
+### Special Products View
+![Products Screenshot](./shopIn_screenshots/Screenshot_website1.png)
 
 ## Future Enhancements
 
