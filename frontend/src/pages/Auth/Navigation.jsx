@@ -1,35 +1,35 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AiOutlineHome,
   AiOutlineShopping,
   AiOutlineLogin,
   AiOutlineUserAdd,
   AiOutlineShoppingCart,
+  AiOutlineMenu,
+  AiOutlineClose,
 } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./Navigation.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../redux/api/usersApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
-import FavoritesCount from "../Products/FavoritesCount";
 
-const Navigation = () => {
+export default function Navigation() {
   const { userInfo } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
-
+  const favorites = useSelector((state) => state.favorites);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [logoutApiCall] = useLogoutMutation();
+  const favoriteCount = favorites.length;
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const logoutHandler = async () => {
     try {
@@ -41,180 +41,225 @@ const Navigation = () => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div
-      style={{ zIndex: 9999 }}
-      className={`${
-        showSidebar ? "hidden" : "flex"
-      } xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-[#000] w-[4%] hover:w-[15%] h-[100vh]  fixed `}
-      id="navigation-container"
-    >
-      <div className="flex flex-col justify-center space-y-4">
-        <Link
-          to="/"
-          className="flex items-center transition-transform transform hover:translate-x-2"
-        >
-          <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
-          <span className="hidden nav-item-name mt-[3rem]">HOME</span>{" "}
-        </Link>
-
-        <Link
-          to="/shop"
-          className="flex items-center transition-transform transform hover:translate-x-2"
-        >
-          <AiOutlineShopping className="mr-2 mt-[3rem]" size={26} />
-          <span className="hidden nav-item-name mt-[3rem]">SHOP</span>{" "}
-        </Link>
-
-        <Link to="/cart" className="flex relative">
-          <div className="flex items-center transition-transform transform hover:translate-x-2">
-            <AiOutlineShoppingCart className="mt-[3rem] mr-2" size={26} />
-            <span className="hidden nav-item-name mt-[3rem]">Cart</span>{" "}
+    <nav className="sticky top-0 z-50 bg-black text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link to="/" className="flex-shrink-0">
+              <img className="h-16 w-16" src="../images/logo.png" alt="Logo" />
+            </Link>
           </div>
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              <NavLink to="/">Home</NavLink>
+              <NavLink to="/shop">Shop</NavLink>
+              <NavLink to="/cart">
+                Cart
+                {cartItems.length > 0 && (
+                  <span className="ml-1 px-2 py-1 text-xs bg-red-500 rounded-full">
+                    {cartItems.reduce((a, c) => a + c.qty, 0)}
+                  </span>
+                )}
+              </NavLink>
+              <NavLink to="/favorite">
+                Favorites
+                {favoriteCount > 0 && (
+                  <span className="px-2 py-1 ml-1 text-sm text-white bg-red-500 rounded-full">
+                    {favoriteCount}
+                  </span>
+                )}
+              </NavLink>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="ml-4 flex items-center md:ml-6">
+              {userInfo ? (
+                <div className="relative">
+                  <button
+                    onClick={toggleDropdown}
+                    className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  >
+                    <span className="mr-2">{userInfo.username}</span>
+                    <svg
+                      className={`h-4 w-4 transition-transform ${
+                        dropdownOpen ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  {dropdownOpen && (
+                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                      {userInfo.isAdmin && (
+                        <>
+                          <DropdownLink to="/admin/dashboard">
+                            Dashboard
+                          </DropdownLink>
+                          <DropdownLink to="/admin/productlist">
+                            Products
+                          </DropdownLink>
+                          <DropdownLink to="/admin/categorylist">
+                            Category
+                          </DropdownLink>
+                          <DropdownLink to="/admin/orderlist">
+                            Orders
+                          </DropdownLink>
+                          <DropdownLink to="/admin/userlist">
+                            Users
+                          </DropdownLink>
+                        </>
+                      )}
+                      <DropdownLink to="/profile">Profile</DropdownLink>
+                      <button
+                        onClick={logoutHandler}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <NavLink to="/login">Login</NavLink>
+                  <NavLink to="/register">Register</NavLink>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="-mr-2 flex md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isMobileMenuOpen ? (
+                <AiOutlineClose className="block h-6 w-6" />
+              ) : (
+                <AiOutlineMenu className="block h-6 w-6" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
 
-          <div className="absolute top-9">
-            {cartItems.length > 0 && (
-              <span>
-                <span className="px-1 py-0 text-sm text-white bg-pink-500 rounded-full">
+      {isMobileMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <NavLink to="/" mobile>
+              Home
+            </NavLink>
+            <NavLink to="/shop" mobile>
+              Shop
+            </NavLink>
+            <NavLink to="/cart" mobile>
+              Cart
+              {cartItems.length > 0 && (
+                <span className="ml-1 px-2 py-1 text-xs bg-red-500 rounded-full">
                   {cartItems.reduce((a, c) => a + c.qty, 0)}
                 </span>
-              </span>
-            )}
-          </div>
-        </Link>
-
-        <Link to="/favorite" className="flex relative">
-          <div className="flex justify-center items-center transition-transform transform hover:translate-x-2">
-            <FaHeart className="mt-[3rem] mr-2" size={20} />
-            <span className="hidden nav-item-name mt-[3rem]">
+              )}
+            </NavLink>
+            <NavLink to="/favorite" mobile>
               Favorites
-            </span>{" "}
-            <FavoritesCount />
+              {favoriteCount > 0 && (
+                  <span className="px-2 py-1 ml-1 text-sm text-white bg-red-500 rounded-full">
+                    {favoriteCount}
+                  </span>)}
+            </NavLink>
           </div>
-        </Link>
-      </div>
-
-      <div className="relative">
-        <button
-          onClick={toggleDropdown}
-          className="flex items-center text-gray-800 focus:outline-none"
-        >
-          {userInfo ? (
-            <span className="text-white">{userInfo.username}</span>
-          ) : (
-            <></>
-          )}
-          {userInfo && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-4 w-4 ml-1 ${
-                dropdownOpen ? "transform rotate-180" : ""
-              }`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d={dropdownOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-              />
-            </svg>
-          )}
-        </button>
-
-        {dropdownOpen && userInfo && (
-          <ul
-            className={`absolute right-0 mt-2 mr-14 space-y-2 bg-white text-gray-600 ${
-              !userInfo.isAdmin ? "-top-20" : "-top-80"
-            } `}
-          >
-            {userInfo.isAdmin && (
-              <>
-                <li>
-                  <Link
-                    to="/admin/dashboard"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/admin/productlist"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Products
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/admin/categorylist"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Category
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/admin/orderlist"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Orders
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/admin/userlist"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Users
-                  </Link>
-                </li>
-              </>
+          <div className="pt-4 pb-3 border-t border-gray-700">
+            {userInfo ? (
+              <div className="px-2 space-y-1">
+                {userInfo.isAdmin && (
+                  <>
+                    <NavLink to="/admin/dashboard" mobile>
+                      Dashboard
+                    </NavLink>
+                    <NavLink to="/admin/productlist" mobile>
+                      Products
+                    </NavLink>
+                    <NavLink to="/admin/categorylist" mobile>
+                      Category
+                    </NavLink>
+                    <NavLink to="/admin/orderlist" mobile>
+                      Orders
+                    </NavLink>
+                    <NavLink to="/admin/userlist" mobile>
+                      Users
+                    </NavLink>
+                  </>
+                )}
+                <NavLink to="/profile" mobile>
+                  Profile
+                </NavLink>
+                <button
+                  onClick={logoutHandler}
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="px-2 space-y-1">
+                <NavLink to="/login" mobile>
+                  Login
+                </NavLink>
+                <NavLink to="/register" mobile>
+                  Register
+                </NavLink>
+              </div>
             )}
-
-            <li>
-              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">
-                Profile
-              </Link>
-            </li>
-            <li>
-              <button
-                onClick={logoutHandler}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
-        )}
-        {!userInfo && (
-          <ul>
-            <li>
-              <Link
-                to="/login"
-                className="flex items-center mt-5 transition-transform transform hover:translate-x-2"
-              >
-                <AiOutlineLogin className="mr-2 mt-[4px]" size={26} />
-                <span className="hidden nav-item-name">LOGIN</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/register"
-                className="flex items-center mt-5 transition-transform transform hover:translate-x-2"
-              >
-                <AiOutlineUserAdd size={26} />
-                <span className="hidden nav-item-name">REGISTER</span>
-              </Link>
-            </li>
-          </ul>
-        )}
-      </div>
-    </div>
+          </div>
+        </div>
+      )}
+    </nav>
   );
-};
+}
 
-export default Navigation;
+function NavLink({ to, children, mobile = false }) {
+  const baseClasses = "text-sm font-medium";
+  const desktopClasses =
+    "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md";
+  const mobileClasses =
+    "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md";
+
+  return (
+    <Link
+      to={to}
+      className={`${baseClasses} ${mobile ? mobileClasses : desktopClasses}`}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function DropdownLink({ to, children }) {
+  return (
+    <Link
+      to={to}
+      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+    >
+      {children}
+    </Link>
+  );
+}
