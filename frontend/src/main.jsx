@@ -54,6 +54,7 @@ const router = createBrowserRouter(
 		<Route path='/placeorder' element={<PlaceOrder />} />
 		<Route path='/order/:id' element={<Order />} />
 		<Route path='/user-orders' element={<UserOrder />} />
+
 		</Route>
 
 		{/* Admin Routes */}

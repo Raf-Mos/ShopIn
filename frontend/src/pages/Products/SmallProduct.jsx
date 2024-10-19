@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import HeartIcon from "./HeartIcons";
 
-const SmallProduct = ({ product }) => {
+export default function SmallProduct({ product }) {
   return (
-    <div className="w-[20rem] ml-[2rem] p-3">
+    <div className="w-full p-3">
       <div className="relative">
         <img
           src={product.image}
           alt={product.name}
-          className="h-auto rounded"
+          className="w-full h-auto rounded"
         />
         <HeartIcon product={product} />
       </div>
@@ -16,8 +16,8 @@ const SmallProduct = ({ product }) => {
       <div className="p-4">
         <Link to={`/product/${product._id}`}>
           <h2 className="flex justify-between items-center">
-            <div>{product.name}</div>
-            <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+            <div className="text-sm sm:text-base font-medium truncate">{product.name}</div>
+            <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
               ${product.price}
             </span>
           </h2>
@@ -25,6 +25,4 @@ const SmallProduct = ({ product }) => {
       </div>
     </div>
   );
-};
-
-export default SmallProduct;
+}
