@@ -72,7 +72,7 @@ export default function ProductList() {
       <div className="flex-1 p-4">
         <h2 className="text-2xl font-semibold mb-4 text-center">Create Product</h2>
 
-        <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
           {imageUrl && (
             <div className="mb-4">
               <img
@@ -84,7 +84,7 @@ export default function ProductList() {
           )}
 
           <div className="mb-4">
-            <label className="block border text-center p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+            <label className="block border text-center p-4 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
               {image ? image.name : "Upload Image"}
               <input
                 type="file"
@@ -93,12 +93,15 @@ export default function ProductList() {
                 onChange={uploadFileHandler}
                 className="hidden"
               />
+              {image ? "Change Image" : ""}
             </label>
           </div>
 
-          <div className="grid gap-4 mb-4">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block mb-1">Name</label>
+              <label htmlFor="name" className="block mb-1">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -108,7 +111,9 @@ export default function ProductList() {
               />
             </div>
             <div>
-              <label htmlFor="price" className="block mb-1">Price</label>
+              <label htmlFor="price" className="block mb-1">
+                Price
+              </label>
               <input
                 type="number"
                 id="price"
@@ -118,7 +123,9 @@ export default function ProductList() {
               />
             </div>
             <div>
-              <label htmlFor="quantity" className="block mb-1">Quantity</label>
+              <label htmlFor="quantity" className="block mb-1">
+                Quantity
+              </label>
               <input
                 type="number"
                 id="quantity"
@@ -128,7 +135,9 @@ export default function ProductList() {
               />
             </div>
             <div>
-              <label htmlFor="brand" className="block mb-1">Brand</label>
+              <label htmlFor="brand" className="block mb-1">
+                Brand
+              </label>
               <input
                 type="text"
                 id="brand"
@@ -138,7 +147,9 @@ export default function ProductList() {
               />
             </div>
             <div>
-              <label htmlFor="description" className="block mb-1">Description</label>
+              <label htmlFor="description" className="block mb-1">
+                Description
+              </label>
               <textarea
                 id="description"
                 className="w-full p-2 border rounded"
@@ -147,7 +158,9 @@ export default function ProductList() {
               ></textarea>
             </div>
             <div>
-              <label htmlFor="stock" className="block mb-1">Count In Stock</label>
+              <label htmlFor="stock" className="block mb-1">
+                Count In Stock
+              </label>
               <input
                 type="number"
                 id="stock"
@@ -157,7 +170,9 @@ export default function ProductList() {
               />
             </div>
             <div>
-              <label htmlFor="category" className="block mb-1">Category</label>
+              <label htmlFor="category" className="block mb-1">
+                Category
+              </label>
               <select
                 id="category"
                 className="w-full p-2 border rounded"
@@ -175,9 +190,9 @@ export default function ProductList() {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+            className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors mt-4"
           >
-            Submit
+            Create Product
           </button>
         </form>
       </div>
