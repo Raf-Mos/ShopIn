@@ -17,7 +17,7 @@ export default function ProductCard({ p }) {
   };
 
   return (
-    <div className="bg-[#8f8b8b] rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
+    <div className="bg-[#000000] rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
       <div className="relative flex-shrink-0">
         <Link to={`/product/${p._id}`}>
           <span className="absolute bottom-3 right-3 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
