@@ -120,7 +120,7 @@ export default function Shipping() {
               <label className="inline-flex items-center">
                 <input
                   type="radio"
-                  className="form-radio text-pink-500"
+                  className="form-radio text-blue-500"
                   name="paymentMethod"
                   value="PayPal"
                   checked={paymentMethod === "PayPal"}
@@ -131,7 +131,7 @@ export default function Shipping() {
             </div>
           </div>
           <button
-            className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             type="submit"
           >
             Continue

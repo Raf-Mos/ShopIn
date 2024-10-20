@@ -81,7 +81,7 @@ export default function Shop() {
         </button>
 
         <div className={`md:w-1/4 ${showFilters ? 'block' : 'hidden'} md:block`}>
-          <div className="bg-[#2f32d1] p-3 mt-2 mb-2 rounded-3xl">
+          <div className="bg-[#000000] p-3 mt-2 mb-2 rounded-3xl">
             <h2 className="h4 text-center py-2 bg-white rounded-full mb-2 text-sm md:text-base">
               Filter by Categories
             </h2>

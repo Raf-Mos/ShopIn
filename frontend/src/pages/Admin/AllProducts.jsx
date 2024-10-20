@@ -21,7 +21,7 @@ export default function AllProducts() {
   return (
     <div className="container mx-auto px-4">
       <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-1/4 mb-4 lg:mb-0">
+        <div className="lg:w-[13.33%] mb-4 lg:mb-0">
           <AdminMenu />
         </div>
         <div className="lg:w-3/4">

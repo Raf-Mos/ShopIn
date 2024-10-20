@@ -176,7 +176,7 @@ export default function Order() {
             {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
               <button
                 type="button"
-                className="bg-pink-500 text-white w-full py-2 mt-4 rounded"
+                className="bg-blue-500 text-white w-full py-2 mt-4 rounded"
                 onClick={deliverHandler}
               >
                 Mark As Delivered
@@ -188,21 +188,21 @@ export default function Order() {
             <h2 className="text-xl font-bold mb-4">Shipping</h2>
             <div className="space-y-2">
               <p>
-                <strong className="text-pink-500">Order:</strong> {order._id}
+                <strong className="text-blue-500">Order:</strong> {order._id}
               </p>
               <p>
-                <strong className="text-pink-500">Name:</strong> {order.user.username}
+                <strong className="text-blue-500">Name:</strong> {order.user.username}
               </p>
               <p>
-                <strong className="text-pink-500">Email:</strong> {order.user.email}
+                <strong className="text-blue-500">Email:</strong> {order.user.email}
               </p>
               <p>
-                <strong className="text-pink-500">Address:</strong>{" "}
+                <strong className="text-blue-500">Address:</strong>{" "}
                 {order.shippingAddress.address}, {order.shippingAddress.city}{" "}
                 {order.shippingAddress.postalCode}, {order.shippingAddress.country}
               </p>
               <p>
-                <strong className="text-pink-500">Method:</strong> {order.paymentMethod}
+                <strong className="text-blue-500">Method:</strong> {order.paymentMethod}
               </p>
               {order.isPaid ? (
                 <Message variant="success">Paid on {order.paidAt}</Message>
