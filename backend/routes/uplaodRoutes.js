@@ -1,12 +1,20 @@
 import path from "path";
 import express from "express";
 import multer from "multer";
+import { fileURLToPath } from "url";
 
 const router = express.Router();
 
+// Define the root directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const rootDirectory = path.resolve(__dirname, "..");
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    // Set the destination to the 'uploads' folder in the root directory
+    cb(null, path.join(rootDirectory, "uploads/"));
   },
 
   filename: (req, file, cb) => {
